@@ -1,0 +1,56 @@
+2020-11-21 16:04:48,230 INFO o.a.j.u.JMeterUtils: Setting Locale to en_EN
+2020-11-21 16:04:48,240 INFO o.a.j.JMeter: Loading user properties from: C:\Projects\train-ticket\LDFI\jmeter\apache-jmeter-5.3\bin\user.properties
+2020-11-21 16:04:48,240 INFO o.a.j.JMeter: Loading system properties from: C:\Projects\train-ticket\LDFI\jmeter\apache-jmeter-5.3\bin\system.properties
+2020-11-21 16:04:48,242 INFO o.a.j.JMeter: Copyright (c) 1998-2020 The Apache Software Foundation
+2020-11-21 16:04:48,242 INFO o.a.j.JMeter: Version 5.3
+2020-11-21 16:04:48,242 INFO o.a.j.JMeter: java.version=1.8.0_271
+2020-11-21 16:04:48,242 INFO o.a.j.JMeter: java.vm.name=Java HotSpot(TM) 64-Bit Server VM
+2020-11-21 16:04:48,242 INFO o.a.j.JMeter: os.name=Windows 10
+2020-11-21 16:04:48,242 INFO o.a.j.JMeter: os.arch=amd64
+2020-11-21 16:04:48,242 INFO o.a.j.JMeter: os.version=10.0
+2020-11-21 16:04:48,242 INFO o.a.j.JMeter: file.encoding=GBK
+2020-11-21 16:04:48,242 INFO o.a.j.JMeter: java.awt.headless=true
+2020-11-21 16:04:48,242 INFO o.a.j.JMeter: Max memory     =1073741824
+2020-11-21 16:04:48,242 INFO o.a.j.JMeter: Available Processors =8
+2020-11-21 16:04:48,246 INFO o.a.j.JMeter: Default Locale=English (EN)
+2020-11-21 16:04:48,246 INFO o.a.j.JMeter: JMeter  Locale=English (EN)
+2020-11-21 16:04:48,246 INFO o.a.j.JMeter: JMeterHome=C:\Projects\train-ticket\LDFI\jmeter\apache-jmeter-5.3
+2020-11-21 16:04:48,246 INFO o.a.j.JMeter: user.dir  =C:\Projects\train-ticket\LDFI
+2020-11-21 16:04:48,246 INFO o.a.j.JMeter: PWD       =C:\Projects\train-ticket\LDFI
+2020-11-21 16:04:48,247 INFO o.a.j.JMeter: IP: 192.168.0.65 Name: DESKTOP-LS668HV FullName: host.docker.internal
+2020-11-21 16:04:48,253 INFO o.a.j.s.FileServer: Default base='C:\Projects\train-ticket\LDFI'
+2020-11-21 16:04:48,256 INFO o.a.j.s.FileServer: Set new base='C:\Projects\train-ticket\LDFI\jmeter\jmeter_code'
+2020-11-21 16:04:48,353 INFO o.a.j.s.SaveService: Testplan (JMX) version: 2.2. Testlog (JTL) version: 2.2
+2020-11-21 16:04:48,366 INFO o.a.j.s.SaveService: Using SaveService properties file encoding UTF-8
+2020-11-21 16:04:48,370 INFO o.a.j.s.SaveService: Using SaveService properties version 5.0
+2020-11-21 16:04:48,374 INFO o.a.j.s.SaveService: Loading file: jmeter\jmeter_code\type_admin_get_orders.jmx
+2020-11-21 16:04:48,410 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/html is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2020-11-21 16:04:48,410 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for application/xhtml+xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2020-11-21 16:04:48,410 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for application/xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2020-11-21 16:04:48,411 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2020-11-21 16:04:48,411 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/vnd.wap.wml is org.apache.jmeter.protocol.http.parser.RegexpHTMLParser
+2020-11-21 16:04:48,411 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/css is org.apache.jmeter.protocol.http.parser.CssParser
+2020-11-21 16:04:48,475 INFO o.a.j.JMeter: Creating summariser <summary>
+2020-11-21 16:04:48,480 INFO o.a.j.e.StandardJMeterEngine: Running the test!
+2020-11-21 16:04:48,480 INFO o.a.j.s.SampleEvent: List of sample_variables: []
+2020-11-21 16:04:48,480 INFO o.a.j.s.SampleEvent: List of sample_variables: []
+2020-11-21 16:04:48,484 INFO o.a.j.e.u.CompoundVariable: Note: Function class names must contain the string: '.functions.'
+2020-11-21 16:04:48,484 INFO o.a.j.e.u.CompoundVariable: Note: Function class names must not contain the string: '.gui.'
+2020-11-21 16:04:48,722 INFO o.a.j.JMeter: Running test (1605992688722)
+2020-11-21 16:04:48,744 INFO o.a.j.e.StandardJMeterEngine: Starting ThreadGroup: 1 : type_admin_get_orders
+2020-11-21 16:04:48,744 INFO o.a.j.e.StandardJMeterEngine: Starting 1 threads for group type_admin_get_orders.
+2020-11-21 16:04:48,744 INFO o.a.j.e.StandardJMeterEngine: Thread will continue on error
+2020-11-21 16:04:48,744 INFO o.a.j.t.ThreadGroup: Starting thread group... number=1 threads=1 ramp-up=1 delayedStart=false
+2020-11-21 16:04:48,751 INFO o.a.j.t.ThreadGroup: Started thread group number 1
+2020-11-21 16:04:48,751 INFO o.a.j.e.StandardJMeterEngine: All thread groups have been started
+2020-11-21 16:04:48,752 INFO o.a.j.t.JMeterThread: Thread started: type_admin_get_orders 1-1
+2020-11-21 16:04:48,767 INFO o.a.j.p.h.s.HTTPHCAbstractImpl: Local host = DESKTOP-LS668HV
+2020-11-21 16:04:48,772 INFO o.a.j.p.h.s.HTTPHC4Impl: HTTP request retry count = 0
+2020-11-21 16:04:48,773 INFO o.a.j.s.SampleResult: Note: Sample TimeStamps are START times
+2020-11-21 16:04:48,773 INFO o.a.j.s.SampleResult: sampleresult.default.encoding is set to ISO-8859-1
+2020-11-21 16:04:48,773 INFO o.a.j.s.SampleResult: sampleresult.useNanoTime=true
+2020-11-21 16:04:48,773 INFO o.a.j.s.SampleResult: sampleresult.nanoThreadSleep=5000
+2020-11-21 16:04:49,803 INFO o.a.j.t.JMeterThread: Thread is done: type_admin_get_orders 1-1
+2020-11-21 16:04:49,803 INFO o.a.j.t.JMeterThread: Thread finished: type_admin_get_orders 1-1
+2020-11-21 16:04:49,804 INFO o.a.j.e.StandardJMeterEngine: Notifying test listeners of end of test
+2020-11-21 16:04:49,805 INFO o.a.j.r.Summariser: summary =      3 in 00:00:01 =    2.8/s Avg:   316 Min:    95 Max:   635 Err:     0 (0.00%)
