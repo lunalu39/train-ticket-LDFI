@@ -48,8 +48,12 @@ def get_request_type_traces():
     for request in requests:
         #request_path = os.path.join(jmx_path, request+'.jmx')
         services = _get_request_by_type(request, True)
-        services = list(set(services))
-        traces[request] = services
+        services.sort(key = lambda x: -len(x))
+        if not services:
+            traces[request] = []
+        else:
+            services = list(set(services[0]))
+            traces[request] = services
     return traces
 
 def _get_result_from_log(file_path):
@@ -109,6 +113,7 @@ def _get_trace_from_jaeger(request_type):
     api_url = 'http://34.74.108.241:32688/api/traces?end={}&limit={}&lookback=1h&maxDuration&minDuration&service={}&start={}'\
             .format(end_time, limit_number, entry_service_name, start_time)
     command = 'curl -s \'{}\''.format(api_url)
+    print(command)
     proc = subprocess.Popen(command, shell=True,  stdout=subprocess.PIPE)
     json_data, error = proc.communicate()
     return _extract_services_set(json_data, False)
@@ -126,7 +131,6 @@ def _extract_services_set(j, bfile = False):
             data = json.load(f)['data']
     else:
         data = json.loads(j)
-        print(data)
         data = data['data']
         
     result = list()
