@@ -74,6 +74,7 @@ def _get_request_by_type(request_type, firt_run):
     request_log = os.path.join(request_log_folder, request_type +'.log')
     if platform.system() == 'Linux':
         jmeter_exec = os.path.join(jmeter_path, 'jmeter.sh')
+        jmeter_exec = './' + jmeter_exec
     else:
         jmeter_exec = os.path.join(jmeter_path, 'jmeter.bat')
     command = '{} -n -t {} -l {}'.format(jmeter_exec, request_file, request_log)
