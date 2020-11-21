@@ -130,10 +130,11 @@ def _extract_services_set(request_type, j, bfile = False):
         with open(j) as f:
             data = json.load(f)['data']
     else:
-        data = json.loads(j)
-        data = data['data']
+        dataj = json.loads(j)
+        data = dataj['data']
         f = open("{}.json".format(request_type),"w")
-        f.write(data)
+        js = json.dumps(dataj)
+        f.write(js)
         f.close()
         
     result = list()
