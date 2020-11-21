@@ -114,6 +114,7 @@ def _get_trace_from_jaeger(request_type):
             .format(end_time, limit_number, entry_service_name, start_time)
     command = 'curl -s \'{}\''.format(api_url)
     print(command)
+    time.sleep(5)
     proc = subprocess.Popen(command, shell=True,  stdout=subprocess.PIPE)
     json_data, error = proc.communicate()
     return _extract_services_set(request_type, json_data, False)
