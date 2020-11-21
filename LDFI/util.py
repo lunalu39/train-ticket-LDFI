@@ -116,13 +116,13 @@ def _get_trace_from_jaeger(request_type):
     print(command)
     proc = subprocess.Popen(command, shell=True,  stdout=subprocess.PIPE)
     json_data, error = proc.communicate()
-    return _extract_services_set(json_data, False)
+    return _extract_services_set(request_type, json_data, False)
          
     
 def _get_milliseconds_time(date_time):
     return int(date_time.timestamp() * 1000000)
 
-def _extract_services_set(j, bfile = False):
+def _extract_services_set(request_type, j, bfile = False):
     # this function takes path or json data as input. example json can get from either list of traces or single trace json
     # 'http://34.74.108.241:32688/api/traces?end=1605493832031000&limit=20&lookback=1h&maxDuration&minDuration&service=ts-train-service&start=1605490232031000' 
     # return list of set of services for each trace in that json
@@ -132,6 +132,9 @@ def _extract_services_set(j, bfile = False):
     else:
         data = json.loads(j)
         data = data['data']
+        f = open("{}.json".format(request_type),"w")
+        f.write(j)
+        f.close()
         
     result = list()
     for trace in data:
