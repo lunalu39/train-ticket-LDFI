@@ -146,6 +146,10 @@ def _inject_failure(service_name, fault):
     # istio
     pass
 
-get_request_type_traces()
+traces = get_request_type_traces()
+j = json.dumps(traces)
+f = open("temp.json","w")
+f.write(j)
+f.close()
         
         
