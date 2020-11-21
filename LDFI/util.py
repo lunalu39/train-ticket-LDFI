@@ -133,7 +133,7 @@ def _extract_services_set(request_type, j, bfile = False):
         data = json.loads(j)
         data = data['data']
         f = open("{}.json".format(request_type),"w")
-        f.write(j)
+        f.write(data)
         f.close()
         
     result = list()
