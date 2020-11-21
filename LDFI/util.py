@@ -125,7 +125,7 @@ def _extract_services_set(j, bfile = False):
         with open(j) as f:
             data = json.load(f)['data']
     else:
-        data = json.load(j)
+        data = json.loads(j)
         print(data)
         data = data['data']
         
