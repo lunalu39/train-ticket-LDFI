@@ -119,7 +119,7 @@ def _get_trace_from_jaeger(request_type):
     entry_service_name = request_to_entry_service[request_type]
     end_time = _get_milliseconds_time(datetime.now())
     start_time = _get_milliseconds_time(datetime.now() - timedelta(seconds = 20))
-    api_url = 'http://34.74.108.241:32688/api/traces?end={}&limit={}&lookback=1h&maxDuration&minDuration&service={}&start={}'\
+    api_url = 'http://34.74.108.241:31765/api/traces?end={}&limit={}&lookback=1h&maxDuration&minDuration&service={}&start={}'\
             .format(end_time, limit_number, entry_service_name, start_time)
     command = 'curl -s \'{}\''.format(api_url)
     print(command)
