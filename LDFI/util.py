@@ -132,29 +132,6 @@ def _get_trace_from_jaeger(request_type):
 def _get_milliseconds_time(date_time):
     return int(date_time.timestamp() * 1000000)
 
-def _extract_services_set(request_type, j, bfile = False):
-    # this function takes path or json data as input. example json can get from either list of traces or single trace json
-    # 'http://34.74.108.241:32688/api/traces?end=1605493832031000&limit=20&lookback=1h&maxDuration&minDuration&service=ts-train-service&start=1605490232031000' 
-    # return list of set of services for each trace in that json
-    if bfile:
-        with open(j) as f:
-            data = json.load(f)['data']
-    else:
-        dataj = json.loads(j)
-        data = dataj['data']
-        f = open("{}.json".format(request_type),"w")
-        js = json.dumps(dataj)
-        f.write(js)
-        f.close()
-        
-    result = list()
-    for trace in data:
-        services_set = set()
-        processes = trace['processes']
-        for service in processes:
-            services_set.add(processes[service]['serviceName'])
-        result.append(services_set)
-    return result
 
 def _extrace_services_set_basedon_operation(request_type, j, bfile = False): # return list of services
     if bfile:
@@ -179,7 +156,7 @@ def _extrace_services_set_basedon_operation(request_type, j, bfile = False): # r
                 outside_span = span
                 break
         
-        if outside_span['operationName'] != operation:
+        if not outside_span or outside_span['operationName'] != operation:
             continue
         if outside_span['startTime'] < most_recent_time: # if happens before, ignore
             continue
