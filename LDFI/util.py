@@ -121,9 +121,9 @@ def _get_trace_from_jaeger(request_type):
     start_time = _get_milliseconds_time(datetime.now() - timedelta(seconds = 20))
     root_url = 'https://tracing.34.75.83.128.nip.io/jaeger/'
     #root_url = 'http://34.74.108.241:31765/'
-    api_url = root_url + 'api/traces?end={}&limit={}&lookback=1h&maxDuration&minDuration&service={}&start={}'\
+    api_url = root_url + 'api/traces?end={}&limit={}&lookback=1h&maxDuration&minDuration&service={}.default&start={}'\
             .format(end_time, limit_number, entry_service_name, start_time)
-    command = 'curl -s \'{}\''.format(api_url)
+    command = 'curl -s --insecure \'{}\''.format(api_url)
     print(command)
     time.sleep(5)
     proc = subprocess.Popen(command, shell=True,  stdout=subprocess.PIPE)
