@@ -106,7 +106,7 @@
         </hashTree>
         <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="loop" enabled="true">
           <boolProp name="LoopController.continue_forever">true</boolProp>
-          <stringProp name="LoopController.loops">3</stringProp>
+          <stringProp name="LoopController.loops">2</stringProp>
         </LoopController>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="preserve_request" enabled="true">
@@ -115,7 +115,7 @@
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;accountId&quot;:&quot;4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f&quot;,&quot;contactsId&quot;:&quot;103fd569-f4e0-47d2-9bed-242a74f86e88&quot;,&quot;tripId&quot;:&quot;G1234&quot;,&quot;seatType&quot;:&quot;2&quot;,&quot;date&quot;:&quot;2021-12-25&quot;,&quot;from&quot;:&quot;Nan Jing&quot;,&quot;to&quot;:&quot;Shang Hai&quot;,&quot;assurance&quot;:&quot;1&quot;,&quot;foodType&quot;:2,&quot;stationName&quot;:&quot;suzhou&quot;,&quot;storeName&quot;:&quot;Roman Holiday&quot;,&quot;foodName&quot;:&quot;Pork Chop with rice&quot;,&quot;foodPrice&quot;:9.5,&quot;handleDate&quot;:&quot;2020-11-20&quot;,&quot;consigneeName&quot;:&quot;zx&quot;,&quot;consigneePhone&quot;:&quot;1234567890&quot;,&quot;consigneeWeight&quot;:5,&quot;isWithin&quot;:false}</stringProp>
+                  <stringProp name="Argument.value">{&quot;accountId&quot;:&quot;4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f&quot;,&quot;contactsId&quot;:&quot;16c35e96-5825-4e3f-aa0d-4ec5176b843b&quot;,&quot;tripId&quot;:&quot;G1234&quot;,&quot;seatType&quot;:&quot;2&quot;,&quot;date&quot;:&quot;2021-12-25&quot;,&quot;from&quot;:&quot;Nan Jing&quot;,&quot;to&quot;:&quot;Shang Hai&quot;,&quot;assurance&quot;:&quot;1&quot;,&quot;foodType&quot;:2,&quot;stationName&quot;:&quot;suzhou&quot;,&quot;storeName&quot;:&quot;Roman Holiday&quot;,&quot;foodName&quot;:&quot;Pork Chop with rice&quot;,&quot;foodPrice&quot;:9.5,&quot;handleDate&quot;:&quot;2020-11-20&quot;,&quot;consigneeName&quot;:&quot;zx&quot;,&quot;consigneePhone&quot;:&quot;1234567890&quot;,&quot;consigneeWeight&quot;:5,&quot;isWithin&quot;:false}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>

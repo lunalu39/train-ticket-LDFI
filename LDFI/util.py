@@ -85,7 +85,7 @@ def _get_request_by_type(request_type, firt_run):
     #python_command = 'jmeter.bat -n -t C:\Users\Ling\OneDrive\Documents\Brown-DESKTOP-8B9G99R\ds-microservices\final-project\jmeter-data\jmeter_tests\type_admin_get_orders.jmx  -l C:\Users\Ling\OneDrive\Documents\Brown-DESKTOP-8B9G99R\ds-microservices\final-project\jmeter-data\jmeter_tests\logs\test1.txt'
     # run_command
     os.popen(command)
-    time.sleep(5)
+    time.sleep(10)
     success = _get_result_from_log(request_log)
     
     if not success:
