@@ -11,6 +11,7 @@ import logging
 import platform
 from pathlib import Path
 from datetime import datetime, timedelta
+import yaml
 
 requests = ['type_admin_get_orders', 'type_admin_get_route', 
             'type_admin_get_travel', 'type_admin_login',
@@ -43,6 +44,14 @@ request_log_folder = os.path.join(request_folder, 'logs')
 def inject_and_get_trace(list_service, fault, request_type):
     #_inject_failure
     
+    for service in list_service:
+        # generate yaml
+        _write_yaml(service, fault)
+        time.sleep(2)
+        command = 'kubectl apply -f {}'.format(service + '-' + fault + '.yml')
+        proc = subprocess.Popen(command, shell=True,  stdout=subprocess.PIPE)
+        json_data, error = proc.communicate()
+    
     try:
         request_result = _get_request_by_type(request_type, False)
         if not request_result:
@@ -66,6 +75,36 @@ def get_request_type_traces():
         #     services = list(set(services[0]))
         #     traces[request] = services
     return traces
+
+
+def _write_yaml(service_name, fault_type):
+    
+    if fault_type == 'delay':
+        template = 'template_delay.yml'
+    elif fault_type == 'abort':
+        template = 'template_abort.yml'
+    else:
+        print('error in fault type. Please check!!!!')
+        return
+    
+    
+    with open(template) as f:
+        content = yaml.load(f, Loader = yaml.FullLoader)
+        
+        # output: <type 'dict'>
+        print(type(content))
+        print(content)
+        content['metadata']['name'] = service_name
+        content['spec']['hosts'] = service_name
+        
+        for each in content['spec']['http']:
+            for route in each['route']:
+                route['destination']['host'] = service_name
+           
+    with open(service_name + '-' + fault_type + '.yml', 'w') as nf:
+        yaml.dump(content, nf)
+        
+
 
 def _get_result_from_log(file_path):
     # get result for file
@@ -176,9 +215,7 @@ def _extrace_services_set_basedon_operation(request_type, j, bfile = False): # r
         result = list(services_set)
     return result
 
-def _inject_failure(service_name, fault):
-    # istio
-    pass
+
 
 traces = get_request_type_traces()
 j = json.dumps(traces)
