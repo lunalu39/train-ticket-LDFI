@@ -26,7 +26,14 @@ request_to_entry_service = {'type_admin_get_orders' : 'ts-admin-order-service',
                             'type_food_service': 'ts-food-map-service',
                             'type_preserve' : 'ts-preserve-service',
                             'type_user_login': 'ts-user-service'}
-
+request_to_operation = {'type_admin_get_orders' : 'getAllOrders',
+                            'type_admin_get_route':'getAllRoutes',
+                            'type_admin_get_travel': 'getAllTravels',
+                            'type_admin_login':'getAllTravels',
+                            'type_cheapest_search':'getByCheapest',
+                            'type_food_service': 'getAllFood',
+                            'type_preserve' : 'preserve',
+                            'type_user_login': 'preserve'}
 jmeter_folder = Path('./jmeter')
 request_folder = os.path.join(jmeter_folder, 'jmeter_code')
 request_log_folder = os.path.join(request_folder, 'logs')
@@ -160,10 +167,10 @@ def _extrace_services_set_basedon_operation(request_type, j, bfile = False): # r
         js = json.dumps(dataj)
         f.write(js)
         f.close()
-
+    operation = request_to_operation[request_type]
+    
     result = list()
     most_recent_time = 0
-    
     for trace in data:
         
         outside_span = []
@@ -172,7 +179,8 @@ def _extrace_services_set_basedon_operation(request_type, j, bfile = False): # r
                 outside_span = span
                 break
         
-        
+        if outside_span['operationName'] != operation:
+            continue
         if outside_span['startTime'] < most_recent_time: # if happens before, ignore
             continue
         
