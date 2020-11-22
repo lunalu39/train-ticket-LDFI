@@ -17,6 +17,7 @@ requests = ['type_admin_get_orders', 'type_admin_get_route',
             'type_cheapest_search', 'type_food_service', 'type_preserve',
             'type_user_login']
 
+# ts-security-service.default.svc.cluster.local:11188/*
 jmeter_path = Path('./jmeter/apache-jmeter-5.3/bin')
 request_to_entry_service = {'type_admin_get_orders' : 'ts-admin-order-service',
                             'type_admin_get_route':'ts-admin-route-service',
@@ -119,10 +120,10 @@ def _get_trace_from_jaeger(request_type):
     entry_service_name = request_to_entry_service[request_type]
     end_time = _get_milliseconds_time(datetime.now())
     start_time = _get_milliseconds_time(datetime.now() - timedelta(seconds = 20))
-    root_url = 'https://tracing.34.75.83.128.nip.io/jaeger/'
-    #root_url = 'http://34.74.108.241:31765/'
-    api_url = root_url + 'api/traces?end={}&limit={}&lookback=1h&maxDuration&minDuration&service={}.default&start={}'\
-            .format(end_time, limit_number, entry_service_name, start_time)
+    #root_url = 'https://tracing.34.75.83.128.nip.io/jaeger/'
+    root_url = 'http://34.74.108.241:32688/'
+    api_url = root_url + 'api/traces?end={}&limit={}&lookback=1h&maxDuration&minDuration&service={}&start={}'\
+            .format(end_time, limit_number, entry_service_name, start_time) # add .default for istio
     command = 'curl -s --insecure \'{}\''.format(api_url)
     print(command)
     time.sleep(5)
