@@ -148,7 +148,7 @@ def _extrace_services_set_basedon_operation(request_type, j, bfile = False): # r
         js = json.dumps(dataj)
         f.write(js)
         f.close()
-    operation = request_to_operation[request_type]
+    #operation = request_to_operation[request_type]
     
     result = list()
     most_recent_time = 0
@@ -160,8 +160,8 @@ def _extrace_services_set_basedon_operation(request_type, j, bfile = False): # r
                 outside_span = span
                 break
         
-        if not outside_span or outside_span['operationName'] != operation:
-            continue
+        # if not outside_span or outside_span['operationName'] != operation:
+        #     continue
         if outside_span['startTime'] < most_recent_time: # if happens before, ignore
             continue
         
