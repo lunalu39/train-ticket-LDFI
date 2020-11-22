@@ -162,6 +162,9 @@ def _extrace_services_set_basedon_operation(request_type, j, bfile = False): # r
         
         # if not outside_span or outside_span['operationName'] != operation:
         #     continue
+        if not outside_span:
+            logging.info("empty span. Please check")
+            continue
         if outside_span['startTime'] < most_recent_time: # if happens before, ignore
             continue
         
