@@ -27,6 +27,7 @@ request_to_entry_service = {'type_admin_get_orders' : 'ts-admin-order-service',
                             'type_food_service': 'ts-food-map-service',
                             'type_preserve' : 'ts-preserve-service',
                             'type_user_login': 'ts-user-service'}
+
 request_to_operation = {'type_admin_get_orders' : 'getAllOrders',
                             'type_admin_get_route':'getAllRoutes',
                             'type_admin_get_travel': 'getAllTravels',
@@ -120,9 +121,9 @@ def _get_trace_from_jaeger(request_type):
     entry_service_name = request_to_entry_service[request_type]
     end_time = _get_milliseconds_time(datetime.now())
     start_time = _get_milliseconds_time(datetime.now() - timedelta(seconds = 20))
-    #root_url = 'https://tracing.34.75.83.128.nip.io/jaeger/'
-    root_url = 'http://34.74.108.241:32688/'
-    api_url = root_url + 'api/traces?end={}&limit={}&lookback=1h&maxDuration&minDuration&service={}&start={}'\
+    root_url = 'https://tracing.34.75.83.128.nip.io/jaeger/'
+    #root_url = 'http://34.74.108.241:32688/'
+    api_url = root_url + 'api/traces?end={}&limit={}&lookback=1h&maxDuration&minDuration&service={}.default&start={}'\
             .format(end_time, limit_number, entry_service_name, start_time) # add .default for istio
     command = 'curl -s --insecure \'{}\''.format(api_url)
     print(command)
