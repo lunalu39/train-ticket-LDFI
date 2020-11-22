@@ -26,6 +26,14 @@ request_to_entry_service = {'type_admin_get_orders' : 'ts-admin-order-service',
                             'type_food_service': 'ts-food-map-service',
                             'type_preserve' : 'ts-preserve-service',
                             'type_user_login': 'ts-user-service'}
+request_to_operation = {'type_admin_get_orders' : 'getAllOrders',
+                            'type_admin_get_route':'getAllRoutes',
+                            'type_admin_get_travel': 'getAllTravels',
+                            'type_admin_login':'getAllTravels',
+                            'type_cheapest_search':'getByCheapest',
+                            'type_food_service': 'getAllFood',
+                            'type_preserve' : 'preserve',
+                            'type_user_login': 'preserve'}
 jmeter_folder = Path('./jmeter')
 request_folder = os.path.join(jmeter_folder, 'jmeter_code')
 request_log_folder = os.path.join(request_folder, 'logs')
@@ -48,12 +56,13 @@ def get_request_type_traces():
     for request in requests:
         #request_path = os.path.join(jmx_path, request+'.jmx')
         services = _get_request_by_type(request, True)
-        services.sort(key = lambda x: -len(x))
-        if not services:
-            traces[request] = []
-        else:
-            services = list(set(services[0]))
-            traces[request] = services
+        traces[request] = services
+        # services.sort(key = lambda x: -len(x))
+        # if not services:
+        #     traces[request] = []
+        # else:
+        #     services = list(set(services[0]))
+        #     traces[request] = services
     return traces
 
 def _get_result_from_log(file_path):
@@ -117,7 +126,7 @@ def _get_trace_from_jaeger(request_type):
     time.sleep(5)
     proc = subprocess.Popen(command, shell=True,  stdout=subprocess.PIPE)
     json_data, error = proc.communicate()
-    return _extract_services_set(request_type, json_data, False)
+    return _extrace_services_set_basedon_operation(request_type, json_data, False)
          
     
 def _get_milliseconds_time(date_time):
@@ -145,6 +154,34 @@ def _extract_services_set(request_type, j, bfile = False):
         for service in processes:
             services_set.add(processes[service]['serviceName'])
         result.append(services_set)
+    return result
+
+def _extrace_services_set_basedon_operation(request_type, j, bfile = False): # return list of services
+    if bfile:
+        with open(j) as f:
+            data = json.load(f)['data']
+    else:
+        dataj = json.loads(j)
+        data = dataj['data']
+        f = open("{}.json".format(request_type),"w")
+        js = json.dumps(dataj)
+        f.write(js)
+        f.close()
+    operation = request_to_operation[request_type]
+    result = list()
+    most_recent_time = 0
+    for trace in data:
+        outside_span = trace['spans'][-1]
+        if  outside_span['operationName'] == operation: # last span is the most outside one.
+            if outside_span['startTime'] < most_recent_time: # if happens before, ignore
+                continue
+            
+            services_set = set()
+            most_recent_time = outside_span['startTime']
+            processes = trace['processes']
+            for service in processes:
+                services_set.add(processes[service]['serviceName'])
+            result = list(services_set)
     return result
 
 def _inject_failure(service_name, fault):
