@@ -44,7 +44,7 @@ def SATsolver(cnf, isCNF = True):
     # print(cnf, "                        ", cnf_dup)
 
     if isCNF == False:
-        allSolutions = list(pycosat.itersolve([cnf_dup], prop_limit=10))
+        allSolutions = list(pycosat.itersolve([cnf_dup]))
         print(allSolutions)
         res = []
         for s in allSolutions:
@@ -53,7 +53,7 @@ def SATsolver(cnf, isCNF = True):
         res = sorted(res, key=len)
         print(res)
     else:
-        allSolutions = list(pycosat.itersolve(cnf_dup, prop_limit=10))
+        allSolutions = list(pycosat.itersolve(cnf_dup))
         print("all solutions1:", allSolutions)
         res = []
         for s in allSolutions:
