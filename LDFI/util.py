@@ -138,7 +138,7 @@ def _get_request_by_type(request_type, firt_run):
     
     
     if firt_run:
-        if os.path.exists(request_log)
+        if os.path.exists(request_log):
             os.remove(request_log) # if there is no error, remove log
             
             
