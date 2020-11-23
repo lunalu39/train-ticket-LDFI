@@ -45,20 +45,19 @@ request_log_folder = os.path.join(request_folder, 'logs')
 def inject_and_get_trace(list_service, fault, request_type):
     #_inject_failure
     
+    injected_files = []
     for service in list_service:
         # generate yaml
         service_name = service.split('.')[0]
         _write_yaml(service_name, fault)
         time.sleep(2)
-        command = 'kubectl apply -f {}'.format(service_name + '-' + fault + '.yml')
+        file_name = service_name + '-' + fault + '.yml'
+        command = 'kubectl apply -f {}'.format(file_name)
+        injected_files.append(file_name)
         print('Inject: ', command)
         proc = subprocess.Popen(command, shell=True,  stdout=subprocess.PIPE)
         json_data, error = proc.communicate()
         
-        time.sleep(1)
-        command = 'kubectl delete -f {}'.format(service_name + '-' + fault + '.yml')
-        print('Remove injecting: ', command)
-        proc = subprocess.Popen(command, shell=True,  stdout=subprocess.PIPE)
     
     try:
         request_result = _get_request_by_type(request_type, False)
@@ -66,7 +65,12 @@ def inject_and_get_trace(list_service, fault, request_type):
             return None
     except:
         print('keep going and look at log later')
-    
+
+    for file in injected_files:
+        time.sleep(1)
+        command = 'kubectl delete -f {}'.format(file)
+        print('Remove injecting: ', command)
+        proc = subprocess.Popen(command, shell=True,  stdout=subprocess.PIPE)
         
 def get_request_type_traces():
     traces = dict()
