@@ -427,7 +427,7 @@ if __name__ == '__main__':
     services_dict = createServiceDict(services)
     services_pq = {'api': 0.5, 'reating': 1.0, 'review': 1.0, 'replay': 0, 'test': 0}
     to_test_FS = [[[1], 'abort'], [[1], 'delay'], [[2], 'abort'], [[2], 'delay']]
-    sortByPriority (services_pq, to_test_FS, services_dict)
+    # sortByPriority (services_pq, to_test_FS, services_dict)
     # request_type_class = [["api", "reating", "review", "replay"]]
     # request = ["api", "reating", "review", "replay"]
     print(randomPriority({'api': 1.0, 'reating': 0, 'review': 1.0, 'replay': 1.0, 'test': 0}))
