@@ -135,6 +135,13 @@ def _get_request_by_type(request_type, firt_run):
         jmeter_exec = './' + jmeter_exec
     else:
         jmeter_exec = os.path.join(jmeter_path, 'jmeter.bat')
+    
+    
+    if firt_run:
+        if os.path.exists(request_log)
+            os.remove(request_log) # if there is no error, remove log
+            
+            
     command = '{} -n -t {} -l {}'.format(jmeter_exec, request_file, request_log)
     #python_command = 'jmeter.bat -n -t C:\Users\Ling\OneDrive\Documents\Brown-DESKTOP-8B9G99R\ds-microservices\final-project\jmeter-data\jmeter_tests\type_admin_get_orders.jmx  -l C:\Users\Ling\OneDrive\Documents\Brown-DESKTOP-8B9G99R\ds-microservices\final-project\jmeter-data\jmeter_tests\logs\test1.txt'
     # run_command
