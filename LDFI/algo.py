@@ -3,6 +3,7 @@ from bidict import bidict
 import random
 from itertools import chain
 import sys
+import copy
 from util import get_request_type_traces, inject_and_get_trace
 
 #request class
