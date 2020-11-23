@@ -50,6 +50,7 @@ def inject_and_get_trace(list_service, fault, request_type):
         _write_yaml(service, fault)
         time.sleep(2)
         command = 'kubectl apply -f {}'.format(service + '-' + fault + '.yml')
+        print('Inject: ', command)
         proc = subprocess.Popen(command, shell=True,  stdout=subprocess.PIPE)
         json_data, error = proc.communicate()
     
