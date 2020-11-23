@@ -124,7 +124,7 @@ def main(request_type_class):
 
     services = [ 'ts-user-service', 'ts-auth-service', 'ts-inside-payment-service', 'ts-preserve-other-service', 'ts-rebook-service', 'ts-route-service', 'ts-ticketinfo-service', 'ts-admin-travel-service', 'ts-food-map-service', 'ts-train-service', 'ts-admin-user-service', 'ts-cancel-service', 'ts-ticket-office-service', 'ts-station-service', 'ts-travel-service', 'ts-execute-service', 'ts-preserve-service', 'ts-payment-service', 'ts-contacts-service', 'ts-basic-service', 
     'ts-seat-service', 'ts-admin-route-service', 'ts-admin-basic-info-service', 'ts-travel2-service', 'ts-travel-plan-service', 'ts-consign-price-service', 'ts-security-service', 'ts-verification-code-service', 'ts-route-plan-service', 'ts-price-service', 'ts-order-service', 'ts-assurance-service', 'ts-news-service', 'ts-notification-service', 'ts-config-service', 'ts-food-service', 'ts-consign-service', 'ts-voucher-service', 'ts-admin-order-service', 'ts-order-other-service', 'ts-ui-dashboard', ]
-    services = [ch+'.default' for ch in services]
+    #services = [ch+'.default' for ch in services]
     #set a unique id <-> service dict
     # services_dict = bidict()
     # i = 1
