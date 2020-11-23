@@ -1,0 +1,25 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ts-basic-service
+spec:
+  hosts:
+  - ts-basic-service
+  http:
+  - match:
+    - headers:
+        end-user:
+          exact: fdse_microservice
+    fault:
+      abort:
+        percentage:
+          value: 100.0
+        httpStatus: 500
+    route:
+    - destination:
+        host: ts-basic-service 
+        subset: v1
+  - route:
+    - destination:
+        host: ts-basic-service
+        subset: v2
