@@ -25,9 +25,25 @@ def covertCNF(user_request, services_dict):
 #given cnf, using pycosat to generate all the solutions
 #return all possible solutions
 def SATsolver(cnf, isCNF = True):
-    print("sat is solving..........")
+    print("sat is solving.........." , cnf)
+    cnf_dup = copy.deepcopy(cnf)
+    universe = list(set(x for l in cnf_dup for x in l))
+    print("universe ", universe)
+    temp_dict = bidict()
+    i = 1
+    for s in universe:
+        temp_dict.update([(s, i)])
+        i+=1
+    print("temp_ dict: ", temp_dict)
+    # print(cnf, "                         ", cnf_dup)
+    for c in cnf_dup:
+        for s, index in zip(c, range(len(c))):
+            c[index] = temp_dict[s]
+    # print(cnf_dup)
+    # print(cnf, "                        ", cnf_dup)
+
     if isCNF == False:
-        allSolutions = list(pycosat.itersolve([cnf]))
+        allSolutions = list(pycosat.itersolve([cnf_dup]))
         print(allSolutions)
         res = []
         for s in allSolutions:
@@ -36,16 +52,21 @@ def SATsolver(cnf, isCNF = True):
         res = sorted(res, key=len)
         print(res)
     else:
-        allSolutions = list(pycosat.itersolve(cnf))
-        print("all solutions:", allSolutions)
+        allSolutions = list(pycosat.itersolve(cnf_dup))
+        print("all solutions1:", allSolutions)
         res = []
         for s in allSolutions:
             temp = [item for item in s if item > 0]
             res.append(temp)
         res = sorted(res, key=len)
-        print("all solutions: ",res)
+        # print("all solutions: ",res)
+    for c in res:
+        print(c)
+        for s, index in zip(c, range(len(c))):
+            c[index] = temp_dict[:s]
+    # print(cnf, " ", cnf_dup)
+    print("all solutions2: ",res)
     return res
-    
 
 #remove the negative vaules, sort by size -> remove from universe -> get the min solutions
 def getMinSolutions(solutions, cnf):
