@@ -99,7 +99,7 @@ def _write_yaml(service_name, fault_type):
         print(type(content))
         print(content)
         content['metadata']['name'] = service_name
-        content['spec']['hosts'] = service_name
+        content['spec']['hosts'] = [service_name]
         
         for each in content['spec']['http']:
             for route in each['route']:
