@@ -3,7 +3,7 @@ from bidict import bidict
 import random
 from itertools import chain
 import sys
-
+from util import get_request_type_traces, inject_and_get_trace
 
 #request class
 
@@ -383,15 +383,15 @@ def recursive_solve(prev_cnf, fault_type, to_test_FS, request_type_tested_FS, er
             print("pop last element in prev cnf: ", prev_cnf)
     return
 
-def inject_and_get_trace(inject_points, fault_type, request_type):
-    temp = input("Enter something: ")
-    print(temp)
-    services = temp.split()
-    graph = []
-    for s in services:
-        graph.append(s)
-    return graph
-    # return ['review']
+# def inject_and_get_trace(inject_points, fault_type, request_type):
+#     temp = input("Enter something: ")
+#     print(temp)
+#     services = temp.split()
+#     graph = []
+#     for s in services:
+#         graph.append(s)
+#     return graph
+#     # return ['review']
 
 
 
