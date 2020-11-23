@@ -111,7 +111,7 @@ def main(request_type_class):
     #     services_dict.update([(s, i)])
     #     i+=1
     # print(services_dict)
-    # services_dict = createServiceDict(services)
+    services_dict = createServiceDict(services)
     # temp = 'ts-food-service'
     # print("test bidict: ", services_dict[temp])
     # temp=1
