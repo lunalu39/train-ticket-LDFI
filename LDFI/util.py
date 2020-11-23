@@ -47,9 +47,10 @@ def inject_and_get_trace(list_service, fault, request_type):
     
     for service in list_service:
         # generate yaml
-        _write_yaml(service, fault)
+        service_name = service.split('.')[0]
+        _write_yaml(service_name, fault)
         time.sleep(2)
-        command = 'kubectl apply -f {}'.format(service + '-' + fault + '.yml')
+        command = 'kubectl apply -f {}'.format(service_name + '-' + fault + '.yml')
         print('Inject: ', command)
         proc = subprocess.Popen(command, shell=True,  stdout=subprocess.PIPE)
         json_data, error = proc.communicate()
@@ -80,7 +81,7 @@ def get_request_type_traces():
 
 
 def _write_yaml(service_name, fault_type):
-    service_name = service_name.split('.')[0]
+
     print('debug: ', service_name)
     if fault_type == 'delay':
         template = 'template_delay.yml'
