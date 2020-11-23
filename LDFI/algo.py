@@ -310,6 +310,8 @@ def recursive_solve(prev_cnf, fault_type, to_test_FS, request_type_tested_FS, er
         # for rand_curr_FS in to_test_FS: #random ??
         # rand_curr_FS = random.choice(to_test_FS)
         # to_test_FS.remove(rand_curr_FS)
+        print()
+        print('-------------------------------------------------------')
         print("to test: ", to_test_FS)
         print("curr FS: ", rand_curr_FS)
         #check duplicate
