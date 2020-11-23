@@ -37,7 +37,7 @@ def SATsolver(cnf, isCNF = True):
         print(res)
     else:
         allSolutions = list(pycosat.itersolve(cnf))
-        # print("all solutions:", allSolutions)
+        print("all solutions:", allSolutions)
         res = []
         for s in allSolutions:
             temp = [item for item in s if item > 0]
