@@ -103,7 +103,7 @@ def _write_yaml(service_name, fault_type):
         
         for each in content['spec']['http']:
             for route in each['route']:
-                route['destination']['host'] = service_name
+                route['destination']['host'] = [service_name]
            
     with open(service_name + '-' + fault_type + '.yml', 'w') as nf:
         yaml.dump(content, nf)
