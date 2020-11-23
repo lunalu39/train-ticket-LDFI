@@ -80,7 +80,7 @@ def get_request_type_traces():
 
 
 def _write_yaml(service_name, fault_type):
-    
+    service_name = service_name.split('.')[0]
     if fault_type == 'delay':
         template = 'template_delay.yml'
     elif fault_type == 'abort':
