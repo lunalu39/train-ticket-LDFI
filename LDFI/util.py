@@ -17,7 +17,7 @@ import yaml
 #             'type_admin_get_travel', 'type_admin_login',
 #             'type_cheapest_search', 'type_food_service', 'type_preserve',
 #             'type_user_login']
-requests = ['type_admin_get_orders']
+requests = ['type_preserve']
 
 # ts-security-service.default.svc.cluster.local:11188/*
 jmeter_path = Path('./jmeter/apache-jmeter-5.3/bin')
@@ -54,6 +54,11 @@ def inject_and_get_trace(list_service, fault, request_type):
         print('Inject: ', command)
         proc = subprocess.Popen(command, shell=True,  stdout=subprocess.PIPE)
         json_data, error = proc.communicate()
+        
+        time.sleep(1)
+        command = 'kubectl delete -f {}'.format(service_name + '-' + fault + '.yml')
+        print('Remove injecting: ', command)
+        proc = subprocess.Popen(command, shell=True,  stdout=subprocess.PIPE)
     
     try:
         request_result = _get_request_by_type(request_type, False)
