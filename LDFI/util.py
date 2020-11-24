@@ -46,6 +46,7 @@ def inject_and_get_trace(list_service, fault, request_type):
     #_inject_failure
     
     injected_files = []
+    
     for service in list_service:
         # generate yaml
         service_name = service.split('.')[0]
@@ -63,7 +64,8 @@ def inject_and_get_trace(list_service, fault, request_type):
 
     except:
         print('keep going and look at log later')
-
+        return []
+    print('Inject Filies: ', injected_files)
     for file in injected_files:
         time.sleep(1)
         command = 'kubectl delete -f {}'.format(file)
@@ -104,8 +106,8 @@ def _write_yaml(service_name, fault_type):
         content = yaml.load(f, Loader = yaml.FullLoader)
         
         # output: <type 'dict'>
-        print(type(content))
-        print(content)
+        # print(type(content))
+        # print(content)
         content['metadata']['name'] = service_name
         content['spec']['hosts'] = [service_name]
         
