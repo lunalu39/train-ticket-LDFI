@@ -13,11 +13,11 @@ from pathlib import Path
 from datetime import datetime, timedelta
 import yaml
 
-# requests = ['type_admin_get_orders', 'type_admin_get_route', 
+#requests = ['type_admin_get_orders', 'type_admin_get_route', 
 #             'type_admin_get_travel', 'type_admin_login',
 #             'type_cheapest_search', 'type_food_service', 'type_preserve',
 #             'type_user_login']
-requests = ['type_preserve']
+requests = ['type_admin_get_orders']
 
 # ts-security-service.default.svc.cluster.local:11188/*
 jmeter_path = Path('./jmeter/apache-jmeter-5.3/bin')
@@ -58,11 +58,9 @@ def inject_and_get_trace(list_service, fault, request_type):
         proc = subprocess.Popen(command, shell=True,  stdout=subprocess.PIPE)
         json_data, error = proc.communicate()
         
-    
     try:
         request_result = _get_request_by_type(request_type, False)
-        if not request_result:
-            return None
+
     except:
         print('keep going and look at log later')
 
@@ -72,6 +70,7 @@ def inject_and_get_trace(list_service, fault, request_type):
         print('Remove injecting: ', command)
         proc = subprocess.Popen(command, shell=True,  stdout=subprocess.PIPE)
         
+    return request_result
 def get_request_type_traces():
     traces = dict()
     #jmx_path = r'C:\Users\Ling\OneDrive\Documents\Brown-DESKTOP-8B9G99R\ds-microservices\final-project\jmeter-data\jmeter_tests'
@@ -117,7 +116,7 @@ def _write_yaml(service_name, fault_type):
     with open(service_name + '-' + fault_type + '.yml', 'w') as nf:
         yaml.dump(content, nf)
         
-
+    
 
 def _get_result_from_log(file_path):
     # get result for file
