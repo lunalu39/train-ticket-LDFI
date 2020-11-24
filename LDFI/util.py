@@ -65,7 +65,8 @@ def inject_and_get_trace(list_service, fault, request_type):
     except:
         print('keep going and look at log later')
         return []
-    print('Inject Filies: ', injected_files)
+    
+    print('~~~~Inject Filies: ', injected_files)
     for file in injected_files:
         time.sleep(1)
         command = 'kubectl delete -f {}'.format(file)
