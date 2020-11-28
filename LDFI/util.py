@@ -13,7 +13,7 @@ from pathlib import Path
 from datetime import datetime, timedelta
 import yaml
 
-requests = ['type_admin_get_orders', 'type_admin_get_route', 
+requests = ['type_admin_get_orders', 'type_simple_search', 'type_admin_get_route', 
             'type_admin_get_travel', 'type_admin_login',
             'type_cheapest_search', 'type_food_service', 'type_preserve',
             'type_user_login']
@@ -28,7 +28,8 @@ request_to_entry_service = {'type_admin_get_orders' : 'ts-admin-order-service',
                             'type_cheapest_search':'ts-travel-plan-service',
                             'type_food_service': 'ts-food-map-service',
                             'type_preserve' : 'ts-preserve-service',
-                            'type_user_login': 'ts-user-service'}
+                            'type_user_login': 'ts-user-service',
+                            'type_simple_search': 'ts-ticketinfo-service'}
 
 request_to_operation = {'type_admin_get_orders' : 'getAllOrders',
                             'type_admin_get_route':'getAllRoutes',
@@ -74,11 +75,15 @@ def inject_and_get_trace(list_service, fault, request_type):
         proc = subprocess.Popen(command, shell=True,  stdout=subprocess.PIPE)
         
     return request_result
-def get_request_type_traces():
+def get_request_type_traces(targeted_requests = requests):
+    
     traces = dict()
     #jmx_path = r'C:\Users\Ling\OneDrive\Documents\Brown-DESKTOP-8B9G99R\ds-microservices\final-project\jmeter-data\jmeter_tests'
     
-    for request in requests:
+    for request in targeted_requests:
+        if request not in requests:
+            print('request not exist')
+            continue
         #request_path = os.path.join(jmx_path, request+'.jmx')
         services = _get_request_by_type(request, True)
         traces[request] = services
