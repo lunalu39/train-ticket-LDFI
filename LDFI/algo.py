@@ -6,8 +6,8 @@ import sys
 import copy
 from util import get_request_type_traces, inject_and_get_trace
 
-#request class
-
+#counter
+COUNTER = 0
 
 # given the list of all the services, map each services to unique id
 #def createServiceDict(servicesList):
@@ -114,7 +114,7 @@ def createServiceDict(services):
     print("service dict: ", services_dict)
     return services_dict
 
-def main(request_type_class):
+def main(request_type_class, ifRandom = False):
     # preprocess -> create dict for all services (sign a ID to each of services)
     services = ['api', 'reating', 'review', 'replay', 'test']
     ########testing
@@ -147,115 +147,231 @@ def main(request_type_class):
     # pass in a file from tracing that recorded all the call graphs (set of services with order -> dependency) ??
     # request_type_class = [['api', 'reating', 'review', 'replay'],['reating', 'review', 'replay', 'api'],['api', 'reating', 'review', 'test']] #request sets for all request types
     
-    request_type_class = {"login" : ['api', 'reating', 'review', 'replay'],
-                        "login2" : ['reating', 'review', 'replay', 'api'],
-                        "login3" : ['api', 'reating', 'review', 'test']}
-    print("request_type_class", request_type_class)
+    # request_type_class = {"login" : ['api', 'reating', 'review', 'replay'],
+    #                     "login2" : ['reating', 'review', 'replay', 'api'],
+    #                     "login3" : ['api', 'reating', 'review', 'test']}
+    # print("request_type_class", request_type_class)
     
-    request1 = ['api', 'reating', 'review', 'replay']
-    request2 = ['reating', 'review', 'replay', 'api']
-    print("test request_type_class: ",request_type_class["login"])
+    # request1 = ['api', 'reating', 'review', 'replay']
+    # request2 = ['reating', 'review', 'replay', 'api']
+    # print("test request_type_class: ",request_type_class["login"])
     # print(sorted(request1))
     # print(sorted(request2))
-    print("test request_type_class: ",sorted(request2) == sorted(request1))
-    print("test request_type_class: ",request2 in request_type_class.values())
+    # print("test request_type_class: ",sorted(request2) == sorted(request1))
+    # print("test request_type_class: ",request2 in request_type_class.values())
 
     # phase 1: random select from integration tests
     # for each request in request_type_class (from integration tests), check the eqv class
 
     ######for testing
-    request_type_class = {"login" : ['api', 'reating']}
-    request_type_class = {"login" : ['api', 'reating', 'review', 'replay']}
+    # request_type_class = {"login" : ['api', 'reating']}
+    # request_type_class = {"login" : ['api', 'reating', 'review', 'replay']}
 
-    request_type_class = {"preserve" : ['ts-food-service', 'ts-notification-service', 'ts-seat-service', 'ts-price-service', 'ts-basic-service', 'ts-station-service', 'ts-route-service', 'ts-config-service', 'ts-order-service', 'ts-order-other-service', 'ts-train-service', 'ts-contacts-service', 'ts-consign-price-service', 'ts-user-service', 'ts-travel-service', 'ts-assurance-service', 'ts-security-service', 'ts-preserve-service', 'ts-consign-service', 'ts-ticketinfo-service']}
-    request_type_class = {"preserve" : ['ts-food-service', 'ts-notification-service', 'ts-seat-service', 'ts-price-service']}
+    # request_type_class = {"preserve" : ['ts-food-service', 'ts-notification-service', 'ts-seat-service', 'ts-price-service', 'ts-basic-service', 'ts-station-service', 'ts-route-service', 'ts-config-service', 'ts-order-service', 'ts-order-other-service', 'ts-train-service', 'ts-contacts-service', 'ts-consign-price-service', 'ts-user-service', 'ts-travel-service', 'ts-assurance-service', 'ts-security-service', 'ts-preserve-service', 'ts-consign-service', 'ts-ticketinfo-service']}
+    # request_type_class = {"preserve" : ['ts-food-service', 'ts-notification-service', 'ts-seat-service', 'ts-price-service']}
 
-    request_type_class = get_request_type_traces()
+    if ifRandom:
+        request_type_class = get_request_type_traces()
 
-    #equvient request class set -> group by the nodes(services) && the order(dependency) --> no dependency ??
-    request_class = [] #gobal var?
+        #equvient request class set -> group by the nodes(services) && the order(dependency) --> no dependency ??
+        request_class = [] #gobal var?
 
-    all_request_types = request_type_class.keys()
+        all_request_types = request_type_class.keys()
 
-    request_type_tested_FS = dict((el,[]) for el in all_request_types)
-    print("request_type_tested_FS: ", request_type_tested_FS)
+        request_type_tested_FS = dict((el,[]) for el in all_request_types)
+        print("request_type_tested_FS: ", request_type_tested_FS)
 
-    error_FS = dict((el,[]) for el in all_request_types)
+        error_FS = dict((el,[]) for el in all_request_types)
 
-    services_total_FS_dict = dict((el,0) for el in services)
-    print("services_total_FS_dict: ", services_total_FS_dict)
+        services_total_FS_dict = dict((el,0) for el in services)
+        print("services_total_FS_dict: ", services_total_FS_dict)
 
-    services_error_FS_dict = dict((el,0) for el in services)
+        services_error_FS_dict = dict((el,0) for el in services)
 
-    services_pq = dict((el,0) for el in services)
+        services_pq = dict((el,0) for el in services)
 
-    for request_type, request in request_type_class.items():
-        injection_sce = []
-        print("request type: ",request_type, ", request: ", request)
-        if sorted(request) in request_class:
-            continue
-        else:
-            request_class.append(sorted(request))
-            # print(request_class)
-        
-        print("request_class: ", request_class) ##request class duplicate???? not necessary???
+        for request_type, request in request_type_class.items():
+            injection_sce = []
+            print("request type: ",request_type, ", request: ", request)
+            if sorted(request) in request_class:
+                continue
+            else:
+                request_class.append(sorted(request))
+            
+            print("request_class: ", request_class) ##request class duplicate???? not necessary???
 
-        #covert current request (input a request) to CNF
-        # prev_cnf = covertCNF(request, services_dict)
-        # print("prev_cnf: ", prev_cnf)
+            clause = covertCNF(request, services_dict)
+            prev_cnf = []
+            prev_cnf.append(clause)
+            print("prev_cnf: ", prev_cnf)
 
-        #solve min solutions --> injection points --> then combine with fault
-        # allSolutions = SATsolver(prev_cnf, isCNF=False)
-        # print(type(allSolutions))
-        # minSolutinos = getMinSolutions(allSolutions, prev_cnf)
-        # # minSolutinos = [[1], [2], [3, 4]]
-        # test_sce = []
-        # for s in minSolutinos:
-        #     for ft in fault_type:  ## check fault type for services??
-        #         fault_sce = [s, ft]
-        #         if fault_sce not in injection_sce:
-        #             injection_sce.append([s, ft])
-        #             test_sce.append(fault_sce)
-        # print(test_sce)
-        # rand = random.choice(test_sce)
-        # print("random: ", rand, services_dict[:rand[0][0]])
+            to_test_FS = []
+            error_IP_prune = []  
+
+            #solve min solutions --> injection points --> then combine with fault
+            allSolutions = SATsolver(prev_cnf)
+            minSolutinos = getMinSolutions(allSolutions, prev_cnf)
+            for s in minSolutinos:
+                for ft in fault_type:  ## check fault type for services??
+                    fault_sce = [s, ft]
+                    to_test_FS.append([s, ft])
+
+            recursive_solve(prev_cnf, fault_type, to_test_FS, request_type_tested_FS, error_FS, services_pq, services_dict, request_type, services_total_FS_dict, services_error_FS_dict, error_IP_prune)
+
+    else:
+
+        subset1 = ['type_admin_get_route', 'type_food_service', 'type_simple_search']
+        subset2 = ['type_admin_get_orders', 'type_admin_get_travel', 'type_admin_login',
+                'type_cheapest_search',  'type_preserve', 'type_user_login']
+        request_type_class = get_request_type_traces()
+        request_type_class_subset1 = get_request_type_traces(subset1)
+        request_type_class_subset2 = get_request_type_traces(subset2)
+
+        #equvient request class set -> group by the nodes(services) && the order(dependency) --> no dependency ??
+        request_class = [] #gobal var?
+
+        all_request_types = request_type_class.keys()
+
+        request_type_tested_FS = dict((el,[]) for el in all_request_types)
+        print("request_type_tested_FS: ", request_type_tested_FS)
+
+        error_FS = dict((el,[]) for el in all_request_types)
+
+        services_total_FS_dict = dict((el,0) for el in services)
+        print("services_total_FS_dict: ", services_total_FS_dict)
+
+        services_error_FS_dict = dict((el,0) for el in services)
+
+        services_pq = dict((el,0) for el in services)
+
+        for request_type, request in request_type_class_subset1.items():
+            injection_sce = []
+            print("request type: ",request_type, ", request: ", request)
+            if sorted(request) in request_class:
+                continue
+            else:
+                request_class.append(sorted(request))
+                # print(request_class)
+            
+            print("request_class: ", request_class) ##request class duplicate???? not necessary???
+
+            #covert current request (input a request) to CNF
+            # prev_cnf = covertCNF(request, services_dict)
+            # print("prev_cnf: ", prev_cnf)
+
+            #solve min solutions --> injection points --> then combine with fault
+            # allSolutions = SATsolver(prev_cnf, isCNF=False)
+            # print(type(allSolutions))
+            # minSolutinos = getMinSolutions(allSolutions, prev_cnf)
+            # # minSolutinos = [[1], [2], [3, 4]]
+            # test_sce = []
+            # for s in minSolutinos:
+            #     for ft in fault_type:  ## check fault type for services??
+            #         fault_sce = [s, ft]
+            #         if fault_sce not in injection_sce:
+            #             injection_sce.append([s, ft])
+            #             test_sce.append(fault_sce)
+            # print(test_sce)
+            # rand = random.choice(test_sce)
+            # print("random: ", rand, services_dict[:rand[0][0]])
 
 
 
-        ##########################################################
-        #covert current request (input a request) to CNF
-        
-        ##########test
-        # request = ['api', 'reating']
-        clause = covertCNF(request, services_dict)
-        prev_cnf = []
-        prev_cnf.append(clause)
-        print("prev_cnf: ", prev_cnf)
+            ##########################################################
+            #covert current request (input a request) to CNF
+            
+            ##########test
+            # request = ['api', 'reating']
+            clause = covertCNF(request, services_dict)
+            prev_cnf = []
+            prev_cnf.append(clause)
+            print("prev_cnf: ", prev_cnf)
 
-        to_test_FS = []
-        # request_type_tested_FS[request_type].append([]) 
-        # error_FS = []
-        # services_pq = []
-        error_IP_prune = []  #???/
+            to_test_FS = []
+            # request_type_tested_FS[request_type].append([]) 
+            # error_FS = []
+            # services_pq = []
+            error_IP_prune = []  #???/
 
-        #solve min solutions --> injection points --> then combine with fault
-        allSolutions = SATsolver(prev_cnf)
-        minSolutinos = getMinSolutions(allSolutions, prev_cnf)
-        for s in minSolutinos:
-            for ft in fault_type:  ## check fault type for services??
-                fault_sce = [s, ft]
-                to_test_FS.append([s, ft])
+            #solve min solutions --> injection points --> then combine with fault
+            allSolutions = SATsolver(prev_cnf)
+            minSolutinos = getMinSolutions(allSolutions, prev_cnf)
+            for s in minSolutinos:
+                for ft in fault_type:  ## check fault type for services??
+                    fault_sce = [s, ft]
+                    to_test_FS.append([s, ft])
 
-        recursive_solve(prev_cnf, fault_type, to_test_FS, request_type_tested_FS, error_FS, services_pq, services_dict, request_type, services_total_FS_dict, services_error_FS_dict, error_IP_prune)
-        
-        #random give a test_sec to do fault injection
-        # injection_res = inject_and_get_trace(services, fault, classtype)
-        # injection_res = covertCNF(injection_res, services_dict)
-        injection_res = [1,2,3,5]
+            recursive_solve(prev_cnf, fault_type, to_test_FS, request_type_tested_FS, error_FS, services_pq, services_dict, request_type, services_total_FS_dict, services_error_FS_dict, error_IP_prune)
+            
+            #random give a test_sec to do fault injection
+            # injection_res = inject_and_get_trace(services, fault, classtype)
+            # injection_res = covertCNF(injection_res, services_dict)
+            # injection_res = [1,2,3,5]
 
-        #update pq
+            #update pq
 
-        #pruning
+            #pruning
+        ##########################subset2
+        for request_type, request in request_type_class_subset2.items():
+            injection_sce = []
+            print("request type: ",request_type, ", request: ", request)
+            if sorted(request) in request_class:
+                continue
+            else:
+                request_class.append(sorted(request))
+                # print(request_class)
+            
+            print("request_class: ", request_class) ##request class duplicate???? not necessary???
+
+            #covert current request (input a request) to CNF
+            # prev_cnf = covertCNF(request, services_dict)
+            # print("prev_cnf: ", prev_cnf)
+
+            #solve min solutions --> injection points --> then combine with fault
+            # allSolutions = SATsolver(prev_cnf, isCNF=False)
+            # print(type(allSolutions))
+            # minSolutinos = getMinSolutions(allSolutions, prev_cnf)
+            # # minSolutinos = [[1], [2], [3, 4]]
+            # test_sce = []
+            # for s in minSolutinos:
+            #     for ft in fault_type:  ## check fault type for services??
+            #         fault_sce = [s, ft]
+            #         if fault_sce not in injection_sce:
+            #             injection_sce.append([s, ft])
+            #             test_sce.append(fault_sce)
+            # print(test_sce)
+            # rand = random.choice(test_sce)
+            # print("random: ", rand, services_dict[:rand[0][0]])
+
+
+
+            ##########################################################
+            #covert current request (input a request) to CNF
+            
+            ##########test
+            # request = ['api', 'reating']
+            clause = covertCNF(request, services_dict)
+            prev_cnf = []
+            prev_cnf.append(clause)
+            print("prev_cnf: ", prev_cnf)
+
+            to_test_FS = []
+            # request_type_tested_FS[request_type].append([]) 
+            # error_FS = []
+            # services_pq = []
+            error_IP_prune = []  #???/
+
+            #solve min solutions --> injection points --> then combine with fault
+            allSolutions = SATsolver(prev_cnf)
+            minSolutinos = getMinSolutions(allSolutions, prev_cnf)
+            for s in minSolutinos:
+                for ft in fault_type:  ## check fault type for services??
+                    fault_sce = [s, ft]
+                    to_test_FS.append([s, ft])
+
+            recursive_solve(prev_cnf, fault_type, to_test_FS, request_type_tested_FS, error_FS, services_pq, services_dict, request_type, services_total_FS_dict, services_error_FS_dict, error_IP_prune, ifSort=True)
+
+
     
     #phase 1: send the injection_sec to istio to random choose and do injection
 
@@ -302,6 +418,8 @@ def randomPriority(services_pq):
 
 
 def recursive_solve(prev_cnf, fault_type, to_test_FS, request_type_tested_FS, error_FS, services_pq, services_dict, request_type, services_total_FS_dict, services_error_FS_dict, error_IP_prune, ifSort = False):
+    global COUNTER 
+    COUNTER += 1
     if ifSort:
         services_pq = randomPriority(services_pq) ##random from not reached services, whether add a small random value for other services????
         to_test_FS = sortByPriority(services_pq, to_test_FS, services_dict)
@@ -457,4 +575,7 @@ if __name__ == '__main__':
 
     # request_type_class = get_request_type_traces()
     request_type_class = []
-    main(request_type_class)
+    main(request_type_class, ifRandom = False)
+    global COUNTER 
+    print("**************************************************************************************************")
+    print(COUNTER)
