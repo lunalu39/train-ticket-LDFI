@@ -216,7 +216,7 @@ def main(request_type_class, ifRandom = False):
                     fault_sce = [s, ft]
                     to_test_FS.append([s, ft])
 
-            recursive_solve(prev_cnf, fault_type, to_test_FS, request_type_tested_FS, error_FS, services_pq, services_dict, request_type, services_total_FS_dict, services_error_FS_dict, error_IP_prune)
+            recursive_solve(prev_cnf, fault_type, to_test_FS, request_type_tested_FS, error_FS, services_pq, services_dict, request_type, services_total_FS_dict, services_error_FS_dict, error_IP_prune, ifPrune=False)
 
     else:
 
@@ -371,14 +371,7 @@ def main(request_type_class, ifRandom = False):
 
             recursive_solve(prev_cnf, fault_type, to_test_FS, request_type_tested_FS, error_FS, services_pq, services_dict, request_type, services_total_FS_dict, services_error_FS_dict, error_IP_prune, ifSort=True)
 
-    
 
-
-
-    # print
-    global COUNTER 
-    print("**************************************************************************************************")
-    print(COUNTER)
     
     #phase 1: send the injection_sec to istio to random choose and do injection
 
@@ -424,7 +417,7 @@ def randomPriority(services_pq):
     return services_pq
 
 
-def recursive_solve(prev_cnf, fault_type, to_test_FS, request_type_tested_FS, error_FS, services_pq, services_dict, request_type, services_total_FS_dict, services_error_FS_dict, error_IP_prune, ifSort = False):
+def recursive_solve(prev_cnf, fault_type, to_test_FS, request_type_tested_FS, error_FS, services_pq, services_dict, request_type, services_total_FS_dict, services_error_FS_dict, error_IP_prune, ifSort = False, ifPrune=True):
     global COUNTER 
     COUNTER += 1
     if ifSort:
@@ -445,20 +438,24 @@ def recursive_solve(prev_cnf, fault_type, to_test_FS, request_type_tested_FS, er
         if rand_curr_FS in error_FS[request_type]: #check if this FS is already tested for this request type and find a bug --> duplicate??
             continue
         
-        pruning = []
-        ifPrune = False
-        for fs in error_FS[request_type]:
-            pruning.append(fs)
-        print("pruning: ", pruning)
-
-        for fs in pruning:
-            if fs[1] == rand_curr_FS[1]: #check if fault type is same
-                #check if the current ip is compplicated than one of the error fs
-                if set(fs[0]).issubset(set(rand_curr_FS[0])): 
-                    ifPrune = True
-        
         if ifPrune:
-            print("it pruned!! ")
+
+            pruning = []
+            ifPrune = False
+            for fs in error_FS[request_type]:
+                pruning.append(fs)
+            print("pruning: ", pruning)
+
+            for fs in pruning:
+                if fs[1] == rand_curr_FS[1]: #check if fault type is same
+                    #check if the current ip is compplicated than one of the error fs
+                    if set(fs[0]).issubset(set(rand_curr_FS[0])): 
+                        ifPrune = True
+            
+            if ifPrune:
+                print("it pruned!! ")
+                continue
+        else:
             continue
 
 
@@ -526,7 +523,7 @@ def recursive_solve(prev_cnf, fault_type, to_test_FS, request_type_tested_FS, er
                     new_to_test.append([s, ft])
             print("new to test list: ", new_to_test)
             print("call recursive solve ........")
-            recursive_solve(prev_cnf, fault_type, new_to_test, request_type_tested_FS, error_FS, services_pq, services_dict, request_type, services_total_FS_dict, services_error_FS_dict, error_IP_prune)
+            recursive_solve(prev_cnf, fault_type, new_to_test, request_type_tested_FS, error_FS, services_pq, services_dict, request_type, services_total_FS_dict, services_error_FS_dict, error_IP_prune, ifSort=ifSort, ifPrune=ifPrune)
             prev_cnf.pop()
             print("pop last element in prev cnf: ", prev_cnf)
     return
@@ -583,4 +580,6 @@ if __name__ == '__main__':
     # request_type_class = get_request_type_traces()
     request_type_class = []
     main(request_type_class, ifRandom = False)
-    
+    global COUNTER 
+    print("**************************************************************************************************")
+    print(COUNTER)
