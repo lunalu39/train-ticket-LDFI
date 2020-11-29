@@ -371,7 +371,9 @@ def main(request_type_class, ifRandom = False):
 
             recursive_solve(prev_cnf, fault_type, to_test_FS, request_type_tested_FS, error_FS, services_pq, services_dict, request_type, services_total_FS_dict, services_error_FS_dict, error_IP_prune, ifSort=True)
 
-
+    global COUNTER 
+    print("**************************************************************************************************")
+    print(COUNTER)
     
     #phase 1: send the injection_sec to istio to random choose and do injection
 
@@ -580,6 +582,4 @@ if __name__ == '__main__':
     # request_type_class = get_request_type_traces()
     request_type_class = []
     main(request_type_class, ifRandom = True)
-    global COUNTER 
-    print("**************************************************************************************************")
-    print(COUNTER)
+    
