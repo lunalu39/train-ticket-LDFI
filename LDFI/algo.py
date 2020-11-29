@@ -216,7 +216,7 @@ def main(request_type_class, ifRandom = False):
                     fault_sce = [s, ft]
                     to_test_FS.append([s, ft])
 
-            recursive_solve(prev_cnf, fault_type, to_test_FS, request_type_tested_FS, error_FS, services_pq, services_dict, request_type, services_total_FS_dict, services_error_FS_dict, error_IP_prune, ifPrune=False)
+            recursive_solve(prev_cnf, fault_type, to_test_FS, request_type_tested_FS, error_FS, services_pq, services_dict, request_type, services_total_FS_dict, services_error_FS_dict, error_IP_prune, ifSort=True, ifPrune=False)
 
     else:
 
@@ -582,5 +582,5 @@ if __name__ == '__main__':
 
     # request_type_class = get_request_type_traces()
     request_type_class = []
-    main(request_type_class, ifRandom = False)
+    main(request_type_class, ifRandom = True)
     
