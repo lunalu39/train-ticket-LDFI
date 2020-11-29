@@ -13,10 +13,12 @@ from pathlib import Path
 from datetime import datetime, timedelta
 import yaml
 
-requests = ['type_admin_get_orders', 'type_simple_search', 'type_admin_get_route', 
-            'type_admin_get_travel', 'type_admin_login',
-            'type_cheapest_search', 'type_food_service', 'type_preserve',
-            'type_user_login']
+# requests = ['type_admin_get_orders', 'type_simple_search', 'type_admin_get_route', 
+#             'type_admin_get_travel', 'type_admin_login',
+#             'type_cheapest_search', 'type_food_service', 'type_preserve',
+#             'type_user_login']
+requests = ['type_admin_get_route', 'type_food_service', 'type_simple_search', 'type_admin_get_orders', 'type_admin_get_travel', 'type_admin_login',
+                'type_cheapest_search',  'type_preserve', 'type_user_login']
 #requests = ['type_admin_get_orders']
 
 # ts-security-service.default.svc.cluster.local:11188/*
