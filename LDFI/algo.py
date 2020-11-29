@@ -581,5 +581,5 @@ if __name__ == '__main__':
 
     # request_type_class = get_request_type_traces()
     request_type_class = []
-    main(request_type_class, ifRandom = True)
+    main(request_type_class, ifRandom = False)
     
