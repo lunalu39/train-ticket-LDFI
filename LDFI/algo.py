@@ -220,9 +220,10 @@ def main(request_type_class, ifRandom = False):
 
     else:
 
-        subset1 = ['type_admin_get_route', 'type_food_service', 'type_simple_search']
-        subset2 = ['type_admin_get_orders', 'type_admin_get_travel', 'type_admin_login',
-                'type_cheapest_search',  'type_preserve', 'type_user_login']
+        subset1 = ['type_admin_get_orders', 'type_simple_search', 'type_admin_get_route']
+        subset2 = ['type_admin_get_travel', 'type_admin_login',
+            'type_cheapest_search', 'type_food_service', 'type_preserve',
+            'type_user_login']
         request_type_class = get_request_type_traces()
         request_type_class_subset1 = get_request_type_traces(subset1)
         request_type_class_subset2 = get_request_type_traces(subset2)
