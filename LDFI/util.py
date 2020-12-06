@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """
+This file contains utility functinos for LDFI. Including fault injection and recovery, Jaeger traces extraction and retrival.
 Created on Sat Nov 21 00:38:07 2020
 
 @author: Ling
