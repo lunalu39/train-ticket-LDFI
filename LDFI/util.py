@@ -83,7 +83,6 @@ def get_request_type_traces(targeted_requests = requests):
     # for given requests, run them and get all traces in dictionary. Requests are default to be all request types.
     
     traces = dict()
-    #jmx_path = r'C:\Users\Ling\OneDrive\Documents\Brown-DESKTOP-8B9G99R\ds-microservices\final-project\jmeter-data\jmeter_tests'
     
     for request in targeted_requests:
         if request not in requests:
@@ -150,6 +149,7 @@ def _get_result_from_log(file_path):
 def _get_request_by_type(request_type, firt_run):
     # for given type, run request and get traces. 
     # if first_run, there should be no error. Throw exception and terminate if there is any. This suggest Train Ticket works unexpected.
+    # the jmeter executable file is jmeter.sh for linux. If trying to use this under windows, please change it to jmeter.bat
     request_file = os.path.join(request_folder, request_type +'.jmx')
     request_log = os.path.join(request_log_folder, request_type +'.log')
     if platform.system() == 'Linux':
@@ -165,7 +165,7 @@ def _get_request_by_type(request_type, firt_run):
             
             
     command = '{} -n -t {} -l {}'.format(jmeter_exec, request_file, request_log)
-    #python_command = 'jmeter.bat -n -t C:\Users\Ling\OneDrive\Documents\Brown-DESKTOP-8B9G99R\ds-microservices\final-project\jmeter-data\jmeter_tests\type_admin_get_orders.jmx  -l C:\Users\Ling\OneDrive\Documents\Brown-DESKTOP-8B9G99R\ds-microservices\final-project\jmeter-data\jmeter_tests\logs\test1.txt'
+    #python_command = 'jmeter.bat -n -t 
     # run_command
     os.popen(command)
     time.sleep(10)
