@@ -46,7 +46,7 @@ request_folder = os.path.join(jmeter_folder, 'jmeter_code')
 request_log_folder = os.path.join(request_folder, 'logs')
 
 def inject_and_get_trace(list_service, fault, request_type):
-    #_inject_failure
+    # for given fault and request type, inject failures
     
     injected_files = []
     
@@ -78,6 +78,7 @@ def inject_and_get_trace(list_service, fault, request_type):
         
     return request_result
 def get_request_type_traces(targeted_requests = requests):
+    # for given requests, run them and get all traces in dictionary. Requests are default to be all request types.
     
     traces = dict()
     #jmx_path = r'C:\Users\Ling\OneDrive\Documents\Brown-DESKTOP-8B9G99R\ds-microservices\final-project\jmeter-data\jmeter_tests'
@@ -145,7 +146,8 @@ def _get_result_from_log(file_path):
 
 
 def _get_request_by_type(request_type, firt_run):
-    
+    # for given type, run request and get traces. 
+    # if first_run, there should be no error. Throw exception and terminate if there is any. This suggest Train Ticket works unexpected.
     request_file = os.path.join(request_folder, request_type +'.jmx')
     request_log = os.path.join(request_log_folder, request_type +'.log')
     if platform.system() == 'Linux':
@@ -246,10 +248,10 @@ def _extrace_services_set_basedon_operation(request_type, j, bfile = False): # r
 
 
 
-traces = get_request_type_traces()
-j = json.dumps(traces)
-f = open("temp.json","w")
-f.write(j)
-f.close()
+#traces = get_request_type_traces()
+#j = json.dumps(traces)
+#f = open("temp.json","w")
+#f.write(j)
+#f.close()
         
         
