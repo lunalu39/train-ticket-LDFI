@@ -107,7 +107,7 @@ def main(request_type_class, ifRandom = False):
     ########for testing#######
     # services = ['api', 'reating', 'review', 'replay', 'test']
     # services = ['ts-food-service', 'ts-notification-service', 'ts-seat-service', 'ts-price-service', 'ts-basic-service', 'ts-station-service', 'ts-route-service', 'ts-config-service', 'ts-order-service', 'ts-order-other-service', 'ts-train-service', 'ts-contacts-service', 'ts-consign-price-service', 'ts-user-service', 'ts-travel-service', 'ts-assurance-service', 'ts-security-service', 'ts-preserve-service', 'ts-consign-service', 'ts-ticketinfo-service']
-    # fault_type = ['abort', 'delay']
+    fault_type = ['abort', 'delay']
 
     # preprocess to create dict for all services (sign a ID to each of services)
     services = [ 'ts-user-service', 'ts-auth-service', 'ts-inside-payment-service', 'ts-preserve-other-service', 'ts-rebook-service', 'ts-route-service', 'ts-ticketinfo-service', 'ts-admin-travel-service', 'ts-food-map-service', 'ts-train-service', 'ts-admin-user-service', 'ts-cancel-service', 'ts-ticket-office-service', 'ts-station-service', 'ts-travel-service', 'ts-execute-service', 'ts-preserve-service', 'ts-payment-service', 'ts-contacts-service', 'ts-basic-service', 
