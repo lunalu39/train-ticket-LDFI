@@ -46,7 +46,8 @@ request_folder = os.path.join(jmeter_folder, 'jmeter_code')
 request_log_folder = os.path.join(request_folder, 'logs')
 
 def inject_and_get_trace(list_service, fault, request_type):
-    # for given fault and request type, inject failures
+    # for given fault and request type, inject failures. 
+    # After injection and getting traces, this function will also remove injected failures. 
     
     injected_files = []
     
@@ -100,7 +101,7 @@ def get_request_type_traces(targeted_requests = requests):
 
 
 def _write_yaml(service_name, fault_type):
-
+    # create a yaml file for given service and fault type. 
     print('debug: ', service_name)
     if fault_type == 'delay':
         template = 'template_delay.yml'
@@ -186,6 +187,7 @@ def _get_request_by_type(request_type, firt_run):
         return _get_trace_from_jaeger(request_type)
         
 def _get_trace_from_jaeger(request_type):
+    # get trace from Jaeger. If deploy in istio, we need to expose the port first. Please refer to istio Jaeger website. 
     #api_command = 'http://34.74.108.241:32688/api/traces?end=1605986668774000&limit=20&lookback=1h&maxDuration&minDuration&service=ts-basic-service&start=1605983068774000'
     limit_number = 4
     entry_service_name = request_to_entry_service[request_type]
@@ -204,10 +206,12 @@ def _get_trace_from_jaeger(request_type):
          
     
 def _get_milliseconds_time(date_time):
+    # change time to Jaeger api required time
     return int(date_time.timestamp() * 1000000)
 
 
-def _extrace_services_set_basedon_operation(request_type, j, bfile = False): # return list of services
+def _extrace_services_set_basedon_operation(request_type, j, bfile = False): 
+    # return list of services
     if bfile:
         with open(j) as f:
             data = json.load(f)['data']
