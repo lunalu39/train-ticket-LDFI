@@ -65,6 +65,7 @@ def inject_and_get_trace(list_service, fault, request_type):
         json_data, error = proc.communicate()
         
     try:
+
         request_result = _get_request_by_type(request_type, False)
 
     except:
@@ -99,6 +100,45 @@ def get_request_type_traces(targeted_requests = requests):
         #     services = list(set(services[0]))
         #     traces[request] = services
     return traces
+
+def inject_and_get_error_requests(list_service, fault):
+    # for given fault and request type, inject failures. 
+    # After injection and getting traces, this function will also remove injected failures. 
+    
+    injected_files = []
+    result_errored_services = []
+    for service in list_service:
+        # generate yaml
+        service_name = service.split('.')[0]
+        _write_yaml(service_name, fault)
+        time.sleep(2)
+        file_name = service_name + '-' + fault + '.yml'
+        command = 'kubectl apply -f {}'.format(file_name)
+        injected_files.append(file_name)
+        print('Inject: ', command)
+        proc = subprocess.Popen(command, shell=True,  stdout=subprocess.PIPE)
+        json_data, error = proc.communicate()
+        
+    try:
+       
+        for request in requests:
+            services = _get_request_by_type(request, False)
+            if not services:
+                result_errored_services.append(request)
+    
+    except:
+        print('keep going and look at log later')
+        return []
+    
+    print('~~~~Inject Filies: ', injected_files)
+    for file in injected_files:
+        time.sleep(1)
+        command = 'kubectl delete -f {}'.format(file)
+        print('Remove injecting: ', command)
+        proc = subprocess.Popen(command, shell=True,  stdout=subprocess.PIPE)
+        
+    return result_errored_services
+
 
 def _write_yaml(service_name, fault_type):
     # create a yaml file for given service and fault type. 
