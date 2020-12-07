@@ -3,6 +3,15 @@
 Created on Sun Dec  6 17:19:16 2020
 
 This file is a baseline that uses semi-random fault injection. 
+There are two different random algorithms.
+First is to randomly get services without type and expore both fault type.
+Second is to randomly get services with fault types.
+
+Both  methods are semi-random which starts with combination of length r = 1. 
+If does not fail all 9 services for current length after exploring all combination,
+then increment length r until explore all combination.
+
+
 For all services, system starts to random from combinnation length r = 1
 
 
@@ -59,18 +68,6 @@ def random_services_with_fault():
             
         services = comb[p]
         p += 1
-        # try:
-        #     services = next(comb)
-        # except StopIteration:
-        #     print('combination for length ', r, ' ends. +1..')
-        #     r += 1
-        #     if r > len(microservices):
-        #         print('reach all combinations, cannot finish....')
-        #     comb = combinations(microservices, r)
-        #     continue
- 
-        # inject failures
-        # get request types
         errored_services = inject_and_get_error_requests2(services, requests)
         
         for ch in errored_services:
