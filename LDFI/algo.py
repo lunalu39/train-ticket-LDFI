@@ -4,7 +4,7 @@ This file contains algorithm functinos for LDFI. Including recursive fault space
 CNF conversion, applying SAT solver and computing minimal solutions.
 Created on Sat Nov 21 00:38:07 2020
 
-@author: Qingyi Lu and Xiling Zhang
+@author: Qingyi Lu, Xiling Zhang
 """
 import pycosat
 from bidict import bidict
