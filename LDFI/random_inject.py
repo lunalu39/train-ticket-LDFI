@@ -2,6 +2,10 @@
 """
 Created on Sun Dec  6 17:19:16 2020
 
+This file is a baseline that uses semi-random fault injection. 
+For all services, system starts to random from combinnation length r = 1
+
+
 @author: Ling
 """
 from util import get_request_type_traces, inject_and_get_error_requests
