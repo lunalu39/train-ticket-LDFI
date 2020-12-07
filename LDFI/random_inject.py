@@ -56,9 +56,13 @@ def main():
         errored_services = inject_and_get_error_requests(services, 'abort')
         
         for ch in errored_services:
-            requests.remove(ch)
+            if ch in requests:
+                requests.remove(ch)
+            else:
+                print('unexpected service: ', ch)
 
         counter += 2 # add 2 for delay and abort
+        print('counter: ', counter)
 
     print('finished. Nnumber of injections: ', counter)
 
