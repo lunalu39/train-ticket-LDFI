@@ -8,7 +8,7 @@ For all services, system starts to random from combinnation length r = 1
 
 @author: Xiling Zhang, Qingyi Lu
 """
-from util import get_request_type_traces, inject_and_get_error_requests
+from util import get_request_type_traces, inject_and_get_error_requests, inject_and_get_error_requests2
 import random
 
 from itertools import combinations
@@ -29,11 +29,63 @@ microservices_with_faults = []
 for ch in microservices:
     microservices_with_faults.append([ch, 'delay'])
     microservices_with_faults.append([ch, 'abort'])
-    
-    
-def main():
 
-    # init run get requests traces 
+def random_combination(iterable, r):
+    "Random selection from itertools.combinations(iterable, r)"
+    pool = tuple(iterable)
+    n = len(pool)
+    indices = sorted(random.sample(range(n), r))
+    return tuple(pool[i] for i in indices)
+
+def random_services_with_fault():
+    # random get 1 service with 1 fault
+    get_request_type_traces()
+    counter = 0
+    r = 0
+    comb = []
+    p = 0
+    while len(requests) > 0:        
+        # random get one from combination
+        if p == len(comb):
+            r += 1
+            
+            if r > len(microservices):
+                print('reach all combinations, cannot finish....')
+                break
+            # get combination and random. generator random? 
+            comb = list(combinations(microservices_with_faults, r))
+            random.shuffle(comb)
+            p = 0
+            
+        services = comb[p]
+        p += 1
+        # try:
+        #     services = next(comb)
+        # except StopIteration:
+        #     print('combination for length ', r, ' ends. +1..')
+        #     r += 1
+        #     if r > len(microservices):
+        #         print('reach all combinations, cannot finish....')
+        #     comb = combinations(microservices, r)
+        #     continue
+ 
+        # inject failures
+        # get request types
+        errored_services = inject_and_get_error_requests2(services, requests)
+        
+        for ch in errored_services:
+            if ch in requests:
+                requests.remove(ch)
+            else:
+                print('unexpected service: ', ch)
+
+        counter += 1 # add 2 for delay and abort
+        print('counter: ', counter)
+
+    print('finished. Nnumber of injections: ', counter)
+
+def random_services_from_r1():
+    # random starting with r = 1 for combination
     get_request_type_traces()
     counter = 0
     r = 0
@@ -79,6 +131,12 @@ def main():
         print('counter: ', counter)
 
     print('finished. Nnumber of injections: ', counter)
+# two way for random injection. inject with pure 
+def main():
+
+    # init run get requests traces 
+    random_services_with_fault()
+    
 
 if __name__ == '__main__':
     # pure random
