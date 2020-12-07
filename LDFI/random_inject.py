@@ -6,7 +6,7 @@ This file is a baseline that uses semi-random fault injection.
 For all services, system starts to random from combinnation length r = 1
 
 
-@author: Ling
+@author: Xiling Zhang, Qingyi Lu
 """
 from util import get_request_type_traces, inject_and_get_error_requests
 import random
