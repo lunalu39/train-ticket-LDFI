@@ -13,6 +13,8 @@ algo.py has LDFI, priority and pruning strategies.
 
 util.py has utility functions involving istio fault injection, Jaeger traces extraction and retrieval from Jaeger based on request type(s).
 
+random_inject.py has a semi-random injection strategy as a comparison. It chooses one set of services with fault type from combination of all services and count the total numbers of injections.
+
 jmeter folder contains jmeter souce code which is the version we use. jmeter_code folder has our detailed implementation of 9 request types.
 
  
